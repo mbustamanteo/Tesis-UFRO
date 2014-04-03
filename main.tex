@@ -1,0 +1,188 @@
+\documentclass[12pt]{report}
+
+%\usepackage[utf8]{inputenc} 			% utf-8, xetex es utf-8 por defecto
+\usepackage{etoolbox}					% quitar espacio a lista de figuras %
+\usepackage{tabularx,booktabs}  			% uso de tablas %
+\usepackage[labelfont=bf]{caption}			% para figuras y tablas usar la bajada
+\usepackage[spanish]{babel}				% idioma español para  %}
+\usepackage{comment} 					% para el \begin{comment}
+\usepackage{rotating} 					% rotar las tablas grandes de los apéndices %
+\usepackage{longtable}					% tablas de varias páginas, hecha para los apendices %
+\usepackage{lscape}					% tablas de varias páginas, hecha para los apendices %
+\usepackage{graphicx}					% para incluir imagenes %
+\usepackage{apacite}					% citas de tipo APA 6th %
+\usepackage[onehalfspacing]{setspace}		% interlineado 1.5 para el texto%
+\usepackage{tocloft}					% para darle estilo a la tabla de contenidos %
+\usepackage{multirow}					% para unir multiples filas en una tabla %
+\usepackage[titletoc]{appendix}			% agregar anexos
+\usepackage{fancyhdr}					% encabezados y pies de pagina
+\usepackage[explicit]{titlesec}				% quitar  titulos de secciones
+\usepackage{fontspec}					% cambiar fuente
+\usepackage[includeheadfoot]{geometry}	% cambiar dimensiones pagina
+\usepackage{colortbl}					% colorear tabla
+
+
+%% quitar guiones cuando las palabras sobrepasan el reglón
+\tolerance=1
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+
+% ligatures hace que ``'' se transformen en " " respectivamente usando xetex
+\setmainfont[Ligatures=TeX]{Clear Sans}
+
+% margenes y tamaños
+\geometry{
+ letterpaper,
+ total={216mm,279mm},
+ left=30mm,
+ right=20mm,
+ top=12mm,
+ bottom=14mm,
+}
+
+
+% tabs para la seccion de comision examinadora
+\newcommand{\tab}[1]{\hspace{.3\textwidth}\rlap{#1}}
+\newcommand{\itab}[1]{\hspace{0em}\rlap{#1}}
+
+%% esconder los titulos
+\newcommand*\Hide{%
+\titleformat{\chapter}[display]
+  {}{}{0pt}{\Huge}
+\titleformat{\part}
+  {}{}{0pt}{}
+}
+
+% titulares de cada capitulo en formato
+\newenvironment{titular}{%
+	\thispagestyle{empty}
+	\setlength{\parindent}{0cm}
+	\fontsize{22pt}{26.4pt}%
+	\selectfont%
+    	\center%
+    	\begingroup%
+}{%
+   	\endgroup
+    	\endcenter
+	\clearpage
+	\par
+}
+
+
+% encabezados y pie de pagina
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\footskip}{25pt}
+\lhead{}
+\chead{}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\space#1}{}} 
+\lfoot{\fontsize{10pt}{12pt}\selectfont \textbf{Identificación y evaluación de requerimientos no funcionales en \\ modelos y aplicaciones de votación electrónica: un mapeo sistemático}}
+\cfoot{}
+\rfoot{\thepage}
+\fancypagestyle{plain}{\fancyhf{}
+	\fancyfoot[LE,LO]{\fontsize{10pt}{12pt}\selectfont \textbf{Identificación y evaluación de requerimientos no funcionales en \\ modelos y aplicaciones de votación electrónica: un mapeo sistemático}}
+	\fancyfoot[RE,RO]{\thepage}
+	\fancyhead[RE,RO]{\it\rightmark}
+	\renewcommand{\headrulewidth}{0ex}
+} 
+
+%\counterwithout{table}{chapter}	% para contar los cuadros en 1,2,3 . . . en vez de 1.1,1.2,1.3,2.1, ... %
+%\counterwithout{figure}{chapter}	% para contar las figuras en 1,2,3 . . . en vez de 1.1,1.2,1.3,2.1, ... %
+%\tolerance=10000			% evita guiones que separen las palabras %
+\graphicspath{{./img/}} 			% directorio de imagenes &
+\renewcommand\spanishtablename{Tabla\ } 		% cambiar caption de los cuadrs
+
+
+% modificar los indices
+\AtBeginDocument{\renewcommand\appendixname{Anexo}}			%cambiar nombre en el indice
+\AtBeginDocument{\renewcommand\listtablename{Índice de tablas}}		%cambiar nombre en el indice
+\renewcommand{\cftfigpresnum}{Figura\ }
+\renewcommand{\cfttabpresnum}{Tabla\ }
+% espaciado en el prefijo del indice de las tablas "Figura X .." y "Tabla X ..."
+\newlength{\mylenf}
+\settowidth{\mylenf}{\cftfigpresnum}
+\setlength{\cftfignumwidth}{\dimexpr\mylenf+3.5em}
+\setlength{\cfttabnumwidth}{\dimexpr\mylenf+3.5em}
+
+% quitar espacio anterior tabla de contenidos,figuras y tablas %
+\setlength{\cftbeforetoctitleskip}{-3em}
+\setlength{\cftbeforeloftitleskip}{-3em}
+\setlength{\cftbeforelottitleskip}{-3em}
+
+% quitar espacio entre capitulos en la lista de figuras y tablas%
+\makeatletter
+\patchcmd{\@chapter}{\addtocontents{lof}{\protect\addvspace{10\p@}}}{}{}{}% LoF
+\patchcmd{\@chapter}{\addtocontents{lot}{\protect\addvspace{10\p@}}}{}{}{}% LoT
+\makeatother
+
+
+\begin{document}
+
+% la cita de multiples autores es con "et al." en vez de "y cols"
+\renewcommand{\BOthers}[1]{et al.\hbox{}}
+
+
+\singlespace				% interlineado 1.0
+\pagenumbering{gobble}		% sin numerar las primeras paginas %
+\pagestyle{empty}			% sin encabezados
+\include{cover}			
+
+\onehalfspacing			% interlineado 1.5
+\include{resumen}
+\include{contents}
+
+% estilos para el documento %
+\setlength{\parindent}{1cm}
+\setlength{\parskip}{5pt}
+\renewcommand{\arraystretch}{1.5}
+
+\pagestyle{fancy}
+\pagenumbering{arabic} 		% empezar la numeracion	
+\include{chap1-introduccion}
+\include{chap2-antecedentes}
+\include{chap3-materiales}
+\include{chap4-resultados}
+\include{chap5-conclusiones}
+
+%%% corregir posicion del titulo de las referencias
+\makeatletter
+\def\@makechapterhead#1{%
+  \vspace*{-40\p@}%
+  {\parindent \z@ \raggedright \normalfont
+    \ifnum \c@secnumdepth >\m@ne
+        \huge\bfseries \@chapapp\space \thechapter
+        \par\nobreak
+        \vskip 20\p@
+    \fi
+    \interlinepenalty\@M
+    \Huge \bfseries #1\par\nobreak
+    \vskip 2\p@
+  }}
+\def\@makeschapterhead#1{%
+  \vspace*{-40\p@}%
+  {\parindent \z@ \raggedright
+    \normalfont
+    \interlinepenalty\@M
+    \Huge \bfseries  #1\par\nobreak
+    \vskip 2\p@
+  }}
+\makeatother
+
+
+\pagestyle{fancy}
+\renewcommand{\spanishbibname}{Bibliografía} 	% cambiar de nombre a la referencia
+\bibliographystyle{apacite}
+\bibliography{Tesis}
+
+\appendix
+\begin{appendices}
+\include{apendice3-puntajes}
+\include{apendice1-trabajos}
+%\include{apendice2-codigo}
+\end{appendices}
+
+
+\end{document}
+
